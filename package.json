@@ -1,0 +1,23 @@
+{
+  "name": "v2-ottoman-js",
+  "version": "1.0.0",
+  "description": "Examples and tests of Ottoman JS V2",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev --respawn src/index.ts",
+    "build": "tsc"
+  },
+  "author": "Eric Bishard",
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.9",
+    "@types/node": "^14.14.13",
+    "express": "^4.17.1",
+    "faker": "^5.1.0",
+    "ottoman": "^2.0.0-alpha.12"
+  }
+}
