@@ -1,12 +1,12 @@
 // This test should be run against Couchbase 6.6
-let airlineDocuments = require('./data/airlines')
+let airlineDocuments = require('../data/airlines.json')
 const { model, Schema, Ottoman } = require('ottoman')
-const ottoman = new Ottoman({ collectionName: 'xxx' })
+const ottoman = new Ottoman({ collectionName: '_default', scopeName: '_default' })
 
 // ottoman connect does not does not return a connection object anymore
 ottoman.connect({
   connectionString: 'couchbase://localhost',
-  bucketName: 'test',
+  bucketName: 'travel',
   username: 'Administrator',
   password: 'password'
 })
@@ -20,31 +20,29 @@ const schema = new Schema({
   name: String
 })
 
-const Airline = model('Airline', schema)
-// const keyGenerator = (tsid) => `airline_${tsid}`
-// const idKey = 'id'
-// const Airline = model('airline', schema, { keyGenerator, idKey })
+const Airline = ottoman.model('Airline', schema)
 
-// run the query
+const mydoc = {
+  "callsign": "MILE-AIR",
+  "country": "United States",
+  "iata": "Q5",
+  "icao": "MLA",
+  "tsid": 10,
+  "name": "40-Mile Air"
+}
+
 const saveAirlines = async() => {
-  try {
-    let result = await Airline.createMany(airlineDocuments)
-    console.log(`success: airlines added: ${result}`)
-  } catch (error) {
-    throw error
-  }
+  await Airline.createMany(airlineDocuments)
+    .then((res) => console.log(res))
+    .catch(e => console.error(`ERR: Airline.createMany(): ${JSON.stringify(e)}`))
 }
 
-async function startOttoman() {
-  try {
-    await ottoman.start()
-      .then(() => saveAirlines())
-      .catch(e => console.error(`ERR: ottoman.start(): ${e.message}`))
-  } catch (e) {
-    console.log(`ERROR: ${e}`)
-  }
-}
-startOttoman()
+ottoman.start()
+  .then(() => saveAirlines())
+  .catch(e => console.error(`ERR: ottoman.start(): ${e.message}`))
+
+// saveAirlines()
+
 
   // ISSUE #01
   // need to add erros that we can re-export from Ottoman around FeatureNotAvailableError

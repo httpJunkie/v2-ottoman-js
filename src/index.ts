@@ -68,7 +68,7 @@
   }
   
   // Ensure that all indexes exist on the server
-  ottoman.ensureIndexes()
+  ottoman.start()
     // Next, let's save our document and print a success message 
     .then(async() => {
       saveDocument()

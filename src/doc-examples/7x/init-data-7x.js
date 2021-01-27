@@ -1,12 +1,12 @@
 // This test should be run against Couchbase 6.6
-let airlineDocuments = require('./data/airlines')
+let airlineDocuments = require('../data/airlines.json')
 const { model, Schema, Ottoman } = require('ottoman')
 const ottoman = new Ottoman({ collectionName: 'airlines', scopeName: 'us' })
 
 // ottoman connect does not does not return a connection object anymore
 ottoman.connect({
   connectionString: 'couchbase://localhost',
-  bucketName: 'test',
+  bucketName: 'travel',
   username: 'Administrator',
   password: 'password'
 })
